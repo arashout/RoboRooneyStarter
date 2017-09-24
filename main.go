@@ -7,15 +7,34 @@ import (
 
 //go:generate echo '{"apiToken":"","channelId":""}' > config.json
 
-var arrayPitches = []*mlpapi.Pitch{
-	&mlpapi.Pitch{
-		VenueID:   "34933",
-		VenuePath: "three-corners-adventure-playground/football-5-a-side-34933",
-		City:      "london",
-	},
+// Rule functions
+// Function signature should be func(mlpapi.Slot) bool
+
+func filterAvailable(slot mlpapi.Slot) bool {
+	return slot.Attributes.Availabilities > 0
+}
+func filterAfterTime(slot mlpapi.Slot) bool {
+	// Only show slots after 4pm
+	return slot.Attributes.Starts.Hour() > 16
+}
+func filterExcludeWeekends(slot mlpapi.Slot) bool {
+	// Week starts at Sunday == index 0
+	return slot.Attributes.Starts.Weekday() != 6 && slot.Attributes.Starts.Weekday() != 0
 }
 
 func main() {
-	robo := roborooney.NewRobo(arrayPitches)
+	rules := make([]func(mlpapi.Slot) bool, 0)
+	// Return only available slots
+	rules = append(rules, filterAvailable)
+	rules = append(rules, filterAfterTime)
+	rules = append(rules, filterExcludeWeekends)
+	pitches := []mlpapi.Pitch{
+		mlpapi.Pitch{
+			VenueID:   "34933",
+			VenuePath: "three-corners-adventure-playground/football-5-a-side-34933",
+			City:      "london",
+		},
+	}
+	robo := roborooney.NewRobo(pitches, rules)
 	robo.Connect()
 }
