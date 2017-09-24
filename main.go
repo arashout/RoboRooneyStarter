@@ -34,6 +34,11 @@ func main() {
 			VenuePath: "three-corners-adventure-playground/football-5-a-side-34933",
 			City:      "london",
 		},
+		mlpapi.Pitch{
+			VenueID:   "32208",
+			VenuePath: "finsbury-leisure-centre/football-5-a-side-32208",
+			City:      "london",
+		},
 	}
 	robo := roborooney.NewRobo(pitches, rules)
 	robo.Connect()
