@@ -17,6 +17,10 @@ func filterAfterTime(slot mlpapi.Slot) bool {
 	// Only show slots after 4pm
 	return slot.Attributes.Starts.Hour() > 16
 }
+func filterBeforeTime(slot mlpapi.Slot) bool {
+	// Only show slots before 8pm
+	return slot.Attributes.Starts.Hour() < 20
+}
 func filterExcludeWeekends(slot mlpapi.Slot) bool {
 	// Week starts at Sunday == index 0
 	return slot.Attributes.Starts.Weekday() != 6 && slot.Attributes.Starts.Weekday() != 0
@@ -30,14 +34,14 @@ func main() {
 	rules = append(rules, filterExcludeWeekends)
 	pitches := []mlpapi.Pitch{
 		mlpapi.Pitch{
-			VenueID:   "34933",
-			VenuePath: "three-corners-adventure-playground/football-5-a-side-34933",
-			City:      "london",
+			ID:   "34933",
+			Path: "three-corners-adventure-playground/football-5-a-side-34933",
+			City: "london",
 		},
 		mlpapi.Pitch{
-			VenueID:   "32208",
-			VenuePath: "finsbury-leisure-centre/football-5-a-side-32208",
-			City:      "london",
+			ID:   "32208",
+			Path: "finsbury-leisure-centre/football-5-a-side-32208",
+			City: "london",
 		},
 	}
 	robo := roborooney.NewRobo(pitches, rules)
