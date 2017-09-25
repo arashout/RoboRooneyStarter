@@ -8,7 +8,7 @@ import (
 //go:generate echo '{"apiToken":"","channelId":""}' > config.json
 
 func main() {
-	rules := []func(slot mlpapi.Slot) bool{
+	rules := []mlpapi.SlotFilter{
 		func(slot mlpapi.Slot) bool {
 			// Return only the available slots
 			return slot.Attributes.Availabilities > 0
