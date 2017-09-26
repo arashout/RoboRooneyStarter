@@ -18,10 +18,11 @@ func main() {
 			return slot.Attributes.Starts.Hour() > 16
 		},
 		func(slot mlpapi.Slot) bool {
-			// Only show slots before 8pm
-			return slot.Attributes.Starts.Hour() < 20
+			// Only show slots before 7pm
+			return slot.Attributes.Starts.Hour() < 19
 		},
 		func(slot mlpapi.Slot) bool {
+			// Exclude weekends
 			// Week starts at Sunday == index 0
 			return slot.Attributes.Starts.Weekday() != 6 && slot.Attributes.Starts.Weekday() != 0
 		},
