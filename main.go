@@ -5,10 +5,8 @@ import (
 	"github.com/arashout/roborooney"
 )
 
-//go:generate echo '{"apiToken":"","channelId":""}' > config.json
-
 func main() {
-	rules := []mlpapi.SlotFilter{
+	rules := []mlpapi.Rule{
 		func(slot mlpapi.Slot) bool {
 			// Return only the available slots
 			return slot.Attributes.Availabilities > 0
