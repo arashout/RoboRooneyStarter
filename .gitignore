@@ -15,3 +15,7 @@
 
 # Hide configuration file
 config.json
+
+# Godeps
+Godeps/*
+vendor/*
