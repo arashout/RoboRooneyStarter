@@ -5,7 +5,10 @@ import (
 	"time"
 )
 
-type Rule func(Slot) bool
+type Rule struct {
+	Description  string
+	DoesSlotPass func(Slot) bool
+}
 
 type MLPClient struct {
 	httpClient *http.Client

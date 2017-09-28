@@ -6,24 +6,31 @@ import (
 )
 
 func main() {
-	// TODO: Create a hacky way to implement rule names!
 	rules := []mlpapi.Rule{
-		func(slot mlpapi.Slot) bool {
-			// Return only the available slots
-			return slot.Attributes.Availabilities > 0
+		mlpapi.Rule{
+			Description: "Only available slots",
+			DoesSlotPass: func(slot mlpapi.Slot) bool {
+				return slot.Attributes.Availabilities > 0
+			},
 		},
-		func(slot mlpapi.Slot) bool {
-			// Only show slots after 4pm
-			return slot.Attributes.Starts.Hour() > 16
+		mlpapi.Rule{
+			Description: "Only slots after 4pm",
+			DoesSlotPass: func(slot mlpapi.Slot) bool {
+				return slot.Attributes.Starts.Hour() > 16
+			},
 		},
-		func(slot mlpapi.Slot) bool {
-			// Only show slots before 7pm
-			return slot.Attributes.Starts.Hour() < 19
+		mlpapi.Rule{
+			Description: "Only slots before 7pm",
+			DoesSlotPass: func(slot mlpapi.Slot) bool {
+				return slot.Attributes.Starts.Hour() < 19
+			},
 		},
-		func(slot mlpapi.Slot) bool {
-			// Exclude weekends
-			// Week starts at Sunday == index 0
-			return slot.Attributes.Starts.Weekday() != 6 && slot.Attributes.Starts.Weekday() != 0
+		mlpapi.Rule{
+			Description: "Only slots not on a weekend",
+			DoesSlotPass: func(slot mlpapi.Slot) bool {
+				// Week starts at Sunday == index 0
+				return slot.Attributes.Starts.Weekday() != 6 && slot.Attributes.Starts.Weekday() != 0
+			},
 		},
 	}
 	pitches := []mlpapi.Pitch{

@@ -80,7 +80,7 @@ func GetSlotCheckoutLink(pitch Pitch, slot Slot) string {
 
 func checkAllRulesForSlot(rules []Rule, slot Slot) bool {
 	for _, rule := range rules {
-		if !rule(slot) {
+		if !rule.DoesSlotPass(slot) {
 			return false
 		}
 	}

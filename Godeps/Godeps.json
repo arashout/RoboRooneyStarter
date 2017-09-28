@@ -5,7 +5,7 @@
 	"Deps": [
 		{
 			"ImportPath": "github.com/arashout/mlpapi",
-			"Rev": "f5dae7fc392c8e8aa5f81c77f3ec279c48ec12d1"
+			"Rev": "31f64c452cda57cb8760ac049036bab6a5ce1567"
 		},
 		{
 			"ImportPath": "github.com/arashout/roborooney",
