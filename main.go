@@ -6,6 +6,7 @@ import (
 )
 
 func main() {
+	// TODO: Create a hacky way to implement rule names!
 	rules := []mlpapi.Rule{
 		func(slot mlpapi.Slot) bool {
 			// Return only the available slots
