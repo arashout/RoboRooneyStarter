@@ -9,7 +9,7 @@
 		},
 		{
 			"ImportPath": "github.com/arashout/roborooney",
-			"Rev": "d416dae0069687d74e015e1032e8ec1251837d33"
+			"Rev": "10c4c6c382c8e7d3561c2174ac02bb598aed0b38"
 		},
 		{
 			"ImportPath": "github.com/nlopes/slack",
