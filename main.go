@@ -51,7 +51,7 @@ func main() {
 		},
 	}
 
-	log.Println("Reading config.json for credentials")
+	log.Println("Reading credentials from enviroment")
 	cred := &roborooney.Credentials{
 		APIToken:  os.Getenv("API_TOKEN"),
 		ChannelID: os.Getenv("CHANNEL_ID"),
@@ -60,6 +60,9 @@ func main() {
 
 	if cred.BotID == "" {
 		log.Println("BotID not set, mentions like @roborooney will not work...")
+	}
+	if cred.APIToken == "" || cred.ChannelID == "" {
+		log.Fatal("Credentials not set! Ending program.")
 	}
 
 	robo := roborooney.NewRobo(pitches, rules, cred)
