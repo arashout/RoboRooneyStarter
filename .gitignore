@@ -3,6 +3,7 @@
 *.dll
 *.so
 *.dylib
+RoboRooneyStarter
 
 # Test binary, build with `go test -c`
 *.test
@@ -15,3 +16,4 @@
 
 # Hide Heroku config file
 .env
+
