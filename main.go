@@ -14,13 +14,13 @@ func main() {
 			},
 		},
 		mlpapi.Rule{
-			Description: "Only slots after 4pm",
+			Description: "Only slots after 4pm (exclusive)",
 			DoesSlotPass: func(slot mlpapi.Slot) bool {
 				return slot.Attributes.Starts.Hour() > 16
 			},
 		},
 		mlpapi.Rule{
-			Description: "Only slots before 7pm",
+			Description: "Only slots before 7pm (exclusive)",
 			DoesSlotPass: func(slot mlpapi.Slot) bool {
 				return slot.Attributes.Starts.Hour() < 19
 			},
