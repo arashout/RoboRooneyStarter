@@ -1,1 +1,1 @@
-web: RoboRooneyStarter
+start: RoboRooneyStarter
