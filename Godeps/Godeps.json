@@ -9,7 +9,7 @@
 		},
 		{
 			"ImportPath": "github.com/arashout/roborooney",
-			"Rev": "10c4c6c382c8e7d3561c2174ac02bb598aed0b38"
+			"Rev": "720b7b047f64e188ca239a2a05d6b7bece40d6d3"
 		},
 		{
 			"ImportPath": "github.com/nlopes/slack",
@@ -18,7 +18,7 @@
 		},
 		{
 			"ImportPath": "golang.org/x/net/websocket",
-			"Rev": "0744d001aa8470aaa53df28d32e5ceeb8af9bd70"
+			"Rev": "278c6cf336eb9139d63479da09da0cfb40fdc4c8"
 		}
 	]
 }
