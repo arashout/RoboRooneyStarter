@@ -1,1 +1,1 @@
-web: RoboRooneyStarter
+worker: RoboRooneyStarter
