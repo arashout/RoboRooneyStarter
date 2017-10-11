@@ -7,7 +7,6 @@ This repo is a template that lets you quickly start using RoboRooney.
 ## Credentials
 Before you can start using the bot locally you need to set enviroment variables that will be used for connecting to Slack.   
 `API_TOKEN` = This is your api token that you generate from Slack   
-`CHANNEL_ID` = The channel ID that you want to post to  
 `BOT_ID` = In Slack this is called member ID, although this is not strictly necessary it enables the use of @roborooney which makes it super convenient.   
 
 ## Heroku    
