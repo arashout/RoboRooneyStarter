@@ -62,19 +62,24 @@ func main() {
 			City: "london",
 			Name: "Finsbury Leisure Centre",
 		},
+		mlpapi.Pitch{
+			ID:   "32180",
+			Path: "calthorpe-project-sports-facilities/football-5-a-side-32180",
+			City: "london",
+			Name: "Calthorpe Project Sports Facilities",
+		},
 	}
 
 	log.Println("Reading credentials from enviroment")
 	cred := &roborooney.Credentials{
-		APIToken:  os.Getenv("API_TOKEN"),
-		ChannelID: os.Getenv("CHANNEL_ID"),
-		BotID:     os.Getenv("BOT_ID"),
+		APIToken: os.Getenv("API_TOKEN"),
+		BotID:    os.Getenv("BOT_ID"),
 	}
 
 	if cred.BotID == "" {
 		log.Println("BotID not set, mentions like @roborooney will not work...")
 	}
-	if cred.APIToken == "" || cred.ChannelID == "" {
+	if cred.APIToken == "" {
 		log.Fatal("Credentials not set! Ending program.")
 	}
 
