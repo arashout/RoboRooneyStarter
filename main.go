@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 
 	"github.com/arashout/mlpapi"
 	"github.com/arashout/roborooney"
@@ -71,9 +72,16 @@ func main() {
 	}
 
 	log.Println("Reading credentials from enviroment")
+	tickerInterval, err := strconv.Atoi(os.Getenv("TICKER_INTERVAL"))
+	if err != nil {
+		log.Fatal("Unable to parse ticker interval: " + os.Getenv("TICKER_INTERVAL"))
+	}
+
 	cred := &roborooney.Credentials{
 		APIToken: os.Getenv("API_TOKEN"),
 		BotID:    os.Getenv("BOT_ID"),
+		NotificationChannelID: os.Getenv("NOTIFICATION_CHANNEL_ID"),
+		TickerInterval:        tickerInterval,
 	}
 
 	if cred.BotID == "" {
