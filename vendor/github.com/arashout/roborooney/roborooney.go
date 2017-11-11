@@ -64,7 +64,6 @@ func NewRobo(pitches []mlpapi.Pitch, rules []mlpapi.Rule, cred *Credentials) (ro
 
 func (robo *RoboRooney) HandleMessage(w http.ResponseWriter, r *http.Request) {
 	log.Println("Handling message")
-	fmt.Fprintln(w, "Hello World")
 	// TODO: Verify token
 
 	log.Println("Parsing form")
@@ -73,24 +72,25 @@ func (robo *RoboRooney) HandleMessage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	slashText := r.Form.Get("text")
-	log.Println(slashText)
+	// Get text called with slash command
+	textSlash := r.Form.Get("text")
 
-	log.Println(r.Form.Get("command"))
-	log.Println(r.Form.Get("id"))
+	var textResult string
+	if strings.Contains(textSlash, commandList) {
+		textResult = robo.handlerListCommand()
+	} else {
+		fmt.Fprintln(w, textHelp)
+		return
+	}
+
+	fmt.Fprintln(w, textResult)
+
 }
 
 // Close robo
 func (robo *RoboRooney) Close() {
 	log.Println(robotName + " is shutting down.")
 	robo.mlpClient.Close()
-}
-
-func (robo *RoboRooney) isMentioned(msgText string) bool {
-	if robo.cred.BotID != "" {
-		return strings.Contains(msgText, robotName) || strings.Contains(msgText, fmt.Sprintf("<@%s>", robo.cred.BotID))
-	}
-	return strings.Contains(msgText, robotName)
 }
 
 func (robo *RoboRooney) getFilteredPitchSlots(t1 time.Time, t2 time.Time) map[string]PitchSlot {
