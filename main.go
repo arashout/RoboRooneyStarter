@@ -1,26 +1,13 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"os"
-	"strconv"
 
 	"github.com/arashout/mlpapi"
 	"github.com/arashout/roborooney"
 )
-
-func determineListenAddress() (string, error) {
-	port := os.Getenv("PORT")
-	if port == "" {
-		return "", fmt.Errorf("$PORT not set")
-	}
-	return ":" + port, nil
-}
-func hello(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "Hello World")
-}
 
 func main() {
 	rules := []mlpapi.Rule{
@@ -71,28 +58,7 @@ func main() {
 		},
 	}
 
-	log.Println("Reading credentials from enviroment")
-	tickerInterval, err := strconv.Atoi(os.Getenv("TICKER_INTERVAL"))
-	if err != nil {
-		log.Fatal("Unable to parse ticker interval: " + os.Getenv("TICKER_INTERVAL"))
-	}
-
-	cred := &roborooney.Credentials{
-		APIToken: os.Getenv("API_TOKEN"),
-		BotID:    os.Getenv("BOT_ID"),
-		NotificationChannelID: os.Getenv("NOTIFICATION_CHANNEL_ID"),
-		TickerInterval:        tickerInterval,
-	}
-
-	if cred.BotID == "" {
-		log.Println("BotID not set, mentions like @roborooney will not work...")
-	}
-	if cred.APIToken == "" {
-		log.Fatal("Credentials not set! Ending program.")
-	}
-
-	robo := roborooney.NewRobo(pitches, rules, cred)
-
+	robo := roborooney.NewRobo(pitches, rules)
 	addr := ":" + os.Getenv("PORT")
 	http.HandleFunc("/", robo.HandleMessage)
 	log.Fatal(http.ListenAndServe(addr, nil))

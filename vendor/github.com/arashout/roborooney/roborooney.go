@@ -1,11 +1,10 @@
 package roborooney
 
 import (
-	"fmt"
 	"log"
-	"net/http"
+	"os"
 	"regexp"
-	"strings"
+	"strconv"
 	"time"
 
 	"github.com/arashout/mlpapi"
@@ -35,7 +34,7 @@ const (
 var regexPitchSlotID = regexp.MustCompile(`\d{5}-\d{6}`)
 
 type RoboRooney struct {
-	cred      *Credentials
+	cred      Credentials
 	mlpClient *mlpapi.MLPClient
 	tracker   *Tracker
 	ticker    *time.Ticker
@@ -44,13 +43,13 @@ type RoboRooney struct {
 }
 
 // NewRobo creates a new initialized robo object that the client can interact with
-func NewRobo(pitches []mlpapi.Pitch, rules []mlpapi.Rule, cred *Credentials) (robo *RoboRooney) {
+func NewRobo(pitches []mlpapi.Pitch, rules []mlpapi.Rule) (robo *RoboRooney) {
 	robo = &RoboRooney{}
-	robo.cred = cred
+	robo.cred = readCredentials()
 
 	robo.mlpClient = mlpapi.New()
 	robo.tracker = NewTracker()
-	robo.ticker = time.NewTicker(time.Minute * time.Duration(cred.TickerInterval))
+	robo.ticker = time.NewTicker(time.Minute * time.Duration(robo.cred.TickerInterval))
 
 	if len(pitches) == 0 {
 		log.Fatal("Need atleast one pitch to check")
@@ -62,29 +61,20 @@ func NewRobo(pitches []mlpapi.Pitch, rules []mlpapi.Rule, cred *Credentials) (ro
 	return robo
 }
 
-func (robo *RoboRooney) HandleMessage(w http.ResponseWriter, r *http.Request) {
-	log.Println("Handling message")
-	// TODO: Verify token
-
-	log.Println("Parsing form")
-	if err := r.ParseForm(); err != nil {
-		http.Error(w, "Error parsing form.", http.StatusBadRequest)
-		return
+func readCredentials() Credentials {
+	log.Print("Reading credentials from enviroment:\n")
+	tickerInterval, err := strconv.Atoi(os.Getenv("TICKER_INTERVAL"))
+	if err != nil {
+		log.Fatal("Unable to parse ticker interval: " + os.Getenv("TICKER_INTERVAL"))
 	}
 
-	// Get text called with slash command
-	textSlash := r.Form.Get("text")
-
-	var textResult string
-	if strings.Contains(textSlash, commandList) {
-		textResult = robo.handlerListCommand()
-	} else {
-		fmt.Fprintln(w, textHelp)
-		return
+	cred := Credentials{
+		VertificationToken: os.Getenv("VERTIFICATION_TOKEN"),
+		IncomingChannelID:  os.Getenv("INCOMING_CHANNEL_ID"),
+		TickerInterval:     tickerInterval,
 	}
 
-	fmt.Fprintln(w, textResult)
-
+	return cred
 }
 
 // Close robo

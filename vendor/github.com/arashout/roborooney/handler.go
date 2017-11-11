@@ -2,9 +2,37 @@ package roborooney
 
 import (
 	"fmt"
+	"log"
+	"net/http"
+	"strings"
 
 	"github.com/arashout/mlpapi"
 )
+
+func (robo *RoboRooney) HandleMessage(w http.ResponseWriter, r *http.Request) {
+	log.Println("Handling message")
+	// TODO: Verify token
+
+	log.Println("Parsing form")
+	if err := r.ParseForm(); err != nil {
+		http.Error(w, "Error parsing form.", http.StatusBadRequest)
+		return
+	}
+
+	// Get text called with slash command
+	textSlash := r.Form.Get("text")
+
+	var textResult string
+	if strings.Contains(textSlash, commandList) {
+		textResult = robo.handlerListCommand()
+	} else {
+		fmt.Fprintln(w, textHelp)
+		return
+	}
+
+	fmt.Fprintln(w, textResult)
+
+}
 
 func (robo *RoboRooney) handlerListCommand() string {
 	robo.updateTracker()
