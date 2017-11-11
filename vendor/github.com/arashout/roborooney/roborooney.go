@@ -46,7 +46,7 @@ type RoboRooney struct {
 // NewRobo creates a new initialized robo object that the client can interact with
 func NewRobo(pitches []mlpapi.Pitch, rules []mlpapi.Rule, cred *Credentials) (robo *RoboRooney) {
 	robo = &RoboRooney{}
-	robo.initialize(cred)
+	robo.cred = cred
 
 	robo.mlpClient = mlpapi.New()
 	robo.tracker = NewTracker()
@@ -62,13 +62,22 @@ func NewRobo(pitches []mlpapi.Pitch, rules []mlpapi.Rule, cred *Credentials) (ro
 	return robo
 }
 
-func (robo *RoboRooney) initialize(cred *Credentials) {
-	robo.cred = cred
-}
-
 func (robo *RoboRooney) HandleMessage(w http.ResponseWriter, r *http.Request) {
 	log.Println("Handling message")
 	fmt.Fprintln(w, "Hello World")
+	// TODO: Verify token
+
+	log.Println("Parsing form")
+	if err := r.ParseForm(); err != nil {
+		http.Error(w, "Error parsing form.", http.StatusBadRequest)
+		return
+	}
+
+	slashText := r.Form.Get("text")
+	log.Println(slashText)
+
+	log.Println(r.Form.Get("command"))
+	log.Println(r.Form.Get("id"))
 }
 
 // Close robo
