@@ -92,5 +92,8 @@ func main() {
 	}
 
 	robo := roborooney.NewRobo(pitches, rules, cred)
-	robo.Connect()
+
+	addr := ":" + os.Getenv("PORT")
+	http.HandleFunc("/", robo.HandleMessage)
+	log.Fatal(http.ListenAndServe(addr, nil))
 }

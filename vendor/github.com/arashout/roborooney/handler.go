@@ -29,7 +29,7 @@ func handleCommand(robo *RoboRooney, command string, channelID string, msgText s
 		log.Println("Command not recognized!")
 	}
 	if result != "" {
-		robo.sendMessage(result, channelID)
+		log.Printf("Sent Message: %s", result)
 	}
 
 }
