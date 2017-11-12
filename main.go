@@ -60,6 +60,7 @@ func main() {
 
 	robo := roborooney.NewRobo(pitches, rules)
 	addr := ":" + os.Getenv("PORT")
-	http.HandleFunc("/", robo.HandleMessage)
+	http.HandleFunc("/slash", robo.HandleSlash)
+	http.HandleFunc("/event", robo.HandleEvent)
 	log.Fatal(http.ListenAndServe(addr, nil))
 }
