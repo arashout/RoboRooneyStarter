@@ -30,6 +30,11 @@ func (robo *RoboRooney) HandleEvent(w http.ResponseWriter, r *http.Request) {
 }
 func (robo *RoboRooney) HandleSlash(w http.ResponseWriter, r *http.Request) {
 	// TODO: Verify token
+	requestDump, err := httputil.DumpRequest(r, true)
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(string(requestDump))
 
 	if err := r.ParseForm(); err != nil {
 		http.Error(w, "Error parsing form.", http.StatusBadRequest)
