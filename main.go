@@ -62,5 +62,6 @@ func main() {
 	addr := ":" + os.Getenv("PORT")
 	http.HandleFunc("/slash", robo.HandleSlash)
 	http.HandleFunc("/event", robo.HandleEvent)
+	robo.StartNotificationTicker()
 	log.Fatal(http.ListenAndServe(addr, nil))
 }
