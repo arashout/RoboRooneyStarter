@@ -1,6 +1,7 @@
 package roborooney
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -10,6 +11,7 @@ import (
 	"github.com/arashout/mlpapi"
 )
 
+// HandleEvent is an endpoint for handling event subscriptions
 func (robo *RoboRooney) HandleEvent(w http.ResponseWriter, r *http.Request) {
 	// Save a copy of this request for debugging.
 	requestDump, err := httputil.DumpRequest(r, true)
@@ -18,14 +20,16 @@ func (robo *RoboRooney) HandleEvent(w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Println(string(requestDump))
 
-	// Respond with challenge parameter
-	if err := r.ParseForm(); err != nil {
-		http.Error(w, "Error parsing form.", http.StatusBadRequest)
+	var req requestFromSlack
+	err = json.NewDecoder(r.Body).Decode(&req)
+	if err != nil {
+		http.Error(w, err.Error(), 400)
 		return
 	}
-	challengeValue := r.Form.Get("challenge")
-	log.Println(challengeValue)
-	fmt.Fprintln(w, challengeValue)
+
+	log.Println(req.ChallengeValue)
+	// Write challenge back in plain text
+	fmt.Fprintln(w, req.ChallengeValue)
 
 }
 func (robo *RoboRooney) HandleSlash(w http.ResponseWriter, r *http.Request) {

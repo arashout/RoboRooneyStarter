@@ -63,5 +63,6 @@ func main() {
 	http.HandleFunc("/slash", robo.HandleSlash)
 	http.HandleFunc("/event", robo.HandleEvent)
 	robo.StartNotificationTicker()
+	log.Printf("Listening on port %s", addr)
 	log.Fatal(http.ListenAndServe(addr, nil))
 }
